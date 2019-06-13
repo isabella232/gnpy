@@ -502,6 +502,9 @@ class GnpyAPI(Resource):
 
         return {"result":path_result_json(result)}, 201
 
+    def head(self):
+        return 200
+
 api.add_resource(GnpyAPI, '/gnpy/api/v1.0/files', endpoint='files')
 
 if __name__ == '__main__':

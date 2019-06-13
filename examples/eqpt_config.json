@@ -37,7 +37,44 @@
             "nf_coef": [-8.104e-4,-6.221e-2,-5.889e-1,37.62],
             "allowed_for_design": false
             },          
+	    {
+            "type_variety": "pre_amp1",
+            "type_def": "openroadm",
+            "gain_flatmax": 27,
+            "gain_min": 11,
+            "p_max": 21.82,
+            "nf_coef": [-8.104e-4,-6.221e-2,-5.889e-1,37.62],
+            "allowed_for_design": false
+            }, 
+
             {
+            "type_variety": "pre_amp",
+            "type_def": "openroadm",
+            "gain_flatmax": 27,
+            "gain_min": 11,
+            "p_max": 21.82,
+            "nf_coef": [-4.5788e-05,-0.0042,-0.1501,-2.6382,-22.1316,-37.2129],
+            "allowed_for_design": false
+            },
+	    {
+            "type_variety": "booster",
+            "type_def": "openroadm",
+            "gain_flatmax": 27,
+            "gain_min": 11,
+            "p_max": 21.82,
+            "nf_coef": [0,0,0,80],
+            "allowed_for_design": false
+            },
+	    {
+            "type_variety": "booster1",
+            "type_def": "openroadm",
+            "gain_flatmax": 27,
+            "gain_min": 11,
+            "p_max": 21.82,
+            "nf_coef": [-8.104e-4,-6.221e-2,-5.889e-1,37.62],
+            "allowed_for_design": false
+            }, 
+	    {
             "type_variety": "standard",
             "type_def": "openroadm",
             "gain_flatmax": 27,
@@ -216,6 +253,65 @@
                        "baud_rate": 66e9,
                        "OSNR": 15,
                        "bit_rate": 200e9,
+                       "roll_off": 0.15,
+                       "tx_osnr": 40,
+                       "min_spacing": 75e9,
+                       "cost":1
+                       }
+                   ]
+            },
+	    {
+            "type_variety": "openroadm-beta1",
+            "frequency":{
+                        "min": 191.35e12,
+                        "max": 196.1e12
+                        },
+            "mode":[
+                       {
+
+                       "format": "W100G",
+                       "baud_rate": 28e9,
+                       "OSNR": 17,
+                       "bit_rate": 100e9,
+                       "roll_off": 0.15,
+                       "tx_osnr": 33,
+                       "min_spacing": 37.5e9,
+                       "cost":1
+                       }
+                   ]
+            },
+	    {
+            "type_variety": "openroadm-beta2",
+            "frequency":{
+                        "min": 191.35e12,
+                        "max": 196.1e12
+                        },
+            "mode":[
+                       {
+                       "format": "W200G",
+                       "baud_rate": 63.1e9,
+                       "OSNR": 17,
+                       "bit_rate": 200e9,
+                       "roll_off": 0.15,
+                       "tx_osnr": 33,
+                       "min_spacing": 75e9,
+                       "cost":1
+                       },
+		       {
+                       "format": "W300G",
+                       "baud_rate": 63.1e9,
+                       "OSNR": 23,
+                       "bit_rate": 300e9,
+                       "roll_off": 0.15,
+                       "tx_osnr": 33,
+                       "min_spacing": 75e9,
+                       "cost":1
+                       },
+                       {
+                       "format": "W400G",
+                       "baud_rate": 63.1e9,
+                       "OSNR": 28,
+                       "bit_rate": 400e9,
                        "roll_off": 0.15,
                        "tx_osnr": 40,
                        "min_spacing": 75e9,
