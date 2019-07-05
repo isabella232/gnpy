@@ -21,13 +21,17 @@ from gnpy.core.utils import lin2db
 from gnpy.core.elements import Roadm
 from gnpy.core.spectrum_assignment import (build_oms_list, align_grids, nvalue_to_frequency,
                                            bitmap_sum, m_to_freq, slots_to_m, frequency_to_n,
-                                           Bitmap)
+                                           Bitmap, spectrum_selection, pth_assign_spectrum)
 from gnpy.core.exceptions import SpectrumError
+from gnpy.core.request import compute_path_dsjctn, find_reversed_path
+from examples.path_requests_run import (requests_from_json, disjunctions_from_json,
+                                        correct_disjn, compute_path_with_disjunction)
 
 TEST_DIR = Path(__file__).parent
 DATA_DIR = TEST_DIR / 'data'
 EQPT_FILENAME = DATA_DIR / 'eqpt_config.json'
 NETWORK_FILENAME = DATA_DIR / 'testTopology_auto_design_expected.json'
+SERVICE_FILENAME = DATA_DIR / 'testTopology_services_expected.json'
 
 @pytest.fixture()
 def setup():
@@ -44,6 +48,13 @@ def setup():
     build_network(network, equipment, p_db, p_total_db)
     oms_list = build_oms_list(network, equipment)
     return network, oms_list
+
+@pytest.fixture()
+def eqpt():
+    """ common setup for tests: builds network, equipment and oms only once
+    """
+    equipment = load_equipment(EQPT_FILENAME)
+    return equipment
 
 def test_oms(setup):
     """ tests that the oms is between two roadms, that there is no roadm or transceivers in the oms
@@ -273,6 +284,52 @@ def test_bitmap_assignment(setup):
         print('bitmap direct assignment should create an error if length is not consistant with' +\
               'provided values')
         raise AssertionError()
-    """ checks spectrum selection function: if n is given, if n is empty
-    """
 
+def test_spectrum_assignment_on_path(eqpt, setup):
+    """ test assignment functions on path and network
+    """
+    equipment = eqpt
+    network, oms_list = setup
+    with open(SERVICE_FILENAME, encoding='utf-8') as my_f:
+        data = loads(my_f.read())
+    rqs = requests_from_json(data, equipment)
+    dsjn = disjunctions_from_json(data)
+    dsjn = correct_disjn(dsjn)
+    req = [rqs[1]]
+    pths = compute_path_dsjctn(network, equipment, req, [])
+
+    print(req)
+    for nval in range(100):
+        (center_n, startn, stopn), path_oms = spectrum_selection(pths[0], oms_list, 4)
+        pth_assign_spectrum(pths, req, oms_list, [find_reversed_path(pths[0])])
+        print(f'testing on following oms {path_oms}')
+        # check that only 96 channels are feasible
+        if nval >= 96:
+            if center_n is not None or startn is not None or stopn is not None:
+                print(center_n, startn, stopn)
+                print('only 96 channels of 4 slots pass in this grid')
+                raise AssertionError()
+        if nval < 96:
+            if center_n is None or startn is None or stopn is None:
+                print(center_n, startn, stopn)
+                print('at least 96 channels of 4 slots should pass in this grid')
+                raise AssertionError()
+        # print(oms_list[path_oms[0]].spectrum_bitmap.bitmap)
+    req = [rqs[2]]
+    pths = compute_path_dsjctn(network, equipment, req, [])
+    (center_n, startn, stopn), path_oms = spectrum_selection(pths[0], oms_list, 4, 478)
+    print(oms_list[0].spectrum_bitmap.freq_index_max)
+    print(oms_list[0])
+    if center_n is not None or startn is not None or stopn is not None:
+        print(center_n, startn, stopn)
+        print('spectrum selection error: should be None')
+        raise AssertionError()
+    (center_n, startn, stopn), path_oms = spectrum_selection(pths[0], oms_list, 4, 477)
+    if center_n is None or startn is None or stopn is None:
+        print(center_n, startn, stopn)
+        print('spectrum selection error should not be None')
+        raise AssertionError()
+
+
+""" test select candidate only
+"""
