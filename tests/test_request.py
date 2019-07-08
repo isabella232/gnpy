@@ -14,11 +14,12 @@ from pathlib import Path
 import pytest
 from copy import deepcopy
 from json import loads
-from math import ceil
 from gnpy.core.equipment import load_equipment, automatic_nch
 from gnpy.core.network import load_network, build_network
 from gnpy.core.utils import lin2db
-from gnpy.core.request import compute_path_dsjctn, find_reversed_path
+from gnpy.core.request import compute_path_dsjctn, find_reversed_path, Result_element
+from examples.path_requests_run import (requests_from_json, disjunctions_from_json, correct_disjn,
+                                        compute_path_with_disjunction)
 
 TEST_DIR = Path(__file__).parent
 DATA_DIR = TEST_DIR / 'data'
@@ -45,9 +46,33 @@ def setup(eqpt):
     build_network(network, equipment, p_db, p_total_db)
     return network
 
-def test_strings(setup):
+@pytest.fixture()
+def data(eqpt):
+    with open(SERVICE_FILENAME, encoding='utf-8') as my_f:
+        data = loads(my_f.read())
+    return data
+
+def test_strings(setup, data, eqpt):
     """ test that __str and __repr work
     """
+    equipment = eqpt
+    rqs = requests_from_json(data, equipment)
+    print(rqs)
+    print(str(rqs[0]))
+    dsjn = disjunctions_from_json(data)
+    print(dsjn)
+    print(str(dsjn[0]))
+    dsjn = correct_disjn(dsjn)
+    equipment = eqpt
+    network = setup
+    pths = compute_path_dsjctn(network, equipment, rqs, dsjn)
+    # print(pths)
+    propagatedpths = compute_path_with_disjunction(network, equipment, rqs, pths)
+    for i, pth in enumerate(propagatedpths):
+        print(Result_element(rqs[i], pth).pathresult)
+        print(str(Result_element(rqs[i], pth)))
+
+
 
 """ test that agregation groups only identical demands, that id is correct concatenation
 """
@@ -67,3 +92,11 @@ def test_strings(setup):
 """ test case when no disjunction path is found
 """
 
+""" tests that best mode is effectively chosen
+"""
+
+""" test that path_result is consistant with yang
+"""
+
+"""
+"""
