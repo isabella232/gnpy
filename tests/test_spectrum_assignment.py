@@ -18,7 +18,7 @@ import pytest
 from gnpy.core.equipment import load_equipment, automatic_nch
 from gnpy.core.network import load_network, build_network
 from gnpy.core.utils import lin2db
-from gnpy.core.elements import Roadm
+from gnpy.core.elements import Roadm, Transceiver
 from gnpy.core.spectrum_assignment import (build_oms_list, align_grids, nvalue_to_frequency,
                                            bitmap_sum, m_to_freq, slots_to_m, frequency_to_n,
                                            Bitmap, spectrum_selection, pth_assign_spectrum)
@@ -34,10 +34,17 @@ NETWORK_FILENAME = DATA_DIR / 'testTopology_auto_design_expected.json'
 SERVICE_FILENAME = DATA_DIR / 'testTopology_services_expected.json'
 
 @pytest.fixture()
-def setup():
+def eqpt():
     """ common setup for tests: builds network, equipment and oms only once
     """
     equipment = load_equipment(EQPT_FILENAME)
+    return equipment
+
+@pytest.fixture()
+def setup(eqpt):
+    """ common setup for tests: builds network, equipment and oms only once
+    """
+    equipment = eqpt
     # fix band to be independant of changes in json file
     equipment['SI']['default'].f_min = 191300000000000.0
     equipment['SI']['default'].f_max = 196100000000000.0
@@ -48,13 +55,6 @@ def setup():
     build_network(network, equipment, p_db, p_total_db)
     oms_list = build_oms_list(network, equipment)
     return network, oms_list
-
-@pytest.fixture()
-def eqpt():
-    """ common setup for tests: builds network, equipment and oms only once
-    """
-    equipment = load_equipment(EQPT_FILENAME)
-    return equipment
 
 def test_oms(setup):
     """ tests that the oms is between two roadms, that there is no roadm or transceivers in the oms
@@ -285,16 +285,28 @@ def test_bitmap_assignment(setup):
               'provided values')
         raise AssertionError()
 
-def test_spectrum_assignment_on_path(eqpt, setup):
+@pytest.fixture()
+def data(eqpt):
+    """ common setup for service list: builds service only once
+    """
+    with open(SERVICE_FILENAME, encoding='utf-8') as my_f:
+        data = loads(my_f.read())
+    return data
+
+@pytest.fixture()
+def requests(eqpt, data):
+    """ common setup for requests, builds requests list only once
+    """
+    equipment = eqpt
+    rqs = requests_from_json(data, equipment)
+    return rqs
+
+def test_spectrum_assignment_on_path(eqpt, setup, requests):
     """ test assignment functions on path and network
     """
     equipment = eqpt
     network, oms_list = setup
-    with open(SERVICE_FILENAME, encoding='utf-8') as my_f:
-        data = loads(my_f.read())
-    rqs = requests_from_json(data, equipment)
-    dsjn = disjunctions_from_json(data)
-    dsjn = correct_disjn(dsjn)
+    rqs = requests
     req = [rqs[1]]
     pths = compute_path_dsjctn(network, equipment, req, [])
 
@@ -330,6 +342,55 @@ def test_spectrum_assignment_on_path(eqpt, setup):
         print('spectrum selection error should not be None')
         raise AssertionError()
 
-
-""" test select candidate only
-"""
+def test_reversed_direction(eqpt, setup, requests, data):
+    """ checks that if spectrum is select on one direction it is also selected on reversed
+        direction
+    """
+    equipment = eqpt
+    network, oms_list = setup
+    rqs = requests
+    dsjn = disjunctions_from_json(data)
+    dsjn = correct_disjn(dsjn)
+    pths = compute_path_dsjctn(network, equipment, rqs, dsjn)
+    rev_pths = []
+    for pth in pths:
+        if pth:
+            rev_pths.append(find_reversed_path(pth))
+        else:
+            rev_pths.append([])
+    # build the list of spectrum slots that will be used for each request. For this purpose
+    # play the selection part of path_assign_spectrum
+    spectrum_list = []
+    for i, pth in enumerate(pths):
+        if pth:
+            nb_wl = ceil(rqs[i].path_bandwidth / rqs[i].bit_rate)
+            requested_m = ceil(rqs[i].spacing / 0.0125e12) * nb_wl
+            (center_n, startn, stopn), path_oms = spectrum_selection(pth, oms_list, requested_m,
+                                                                     requested_n=None)
+            spectrum_list.append([center_n, startn, stopn])
+        else:
+            spectrum_list.append([])
+    pth_assign_spectrum(pths, rqs, oms_list, rev_pths)
+    # pth-assign concatenates path and reversed path
+    for i, pth in enumerate(pths):
+        # verifies that each element (not trx and not roadm) in the path has same
+        # spectrum occupation
+        if pth:
+            this_path = [elem for elem in pth if not isinstance(elem, Roadm) and\
+                         not isinstance(elem, Transceiver)]
+            print(f'path {[el.uid for el in this_path]}')
+            this_revpath = [elem for elem in rev_pths[i] if not isinstance(elem, Roadm) and\
+                         not isinstance(elem, Transceiver)]
+            print(f'rev_path {[el.uid for el in this_revpath]}')
+            print('')
+            for j, elem in enumerate(this_revpath):
+                imin = elem.oms.spectrum_bitmap.geti(spectrum_list[i][1])
+                imax = elem.oms.spectrum_bitmap.geti(spectrum_list[i][2])
+                if elem.oms.spectrum_bitmap.bitmap[imin:imax] != \
+                   this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]:
+                    print(f'rev_elem {elem.uid}')
+                    print(f'    elem {this_path[len(this_path)-j-1].uid}')
+                    print(f'\trev_spectrum: {elem.oms.spectrum_bitmap.bitmap[imin:imax]}')
+                    print(f'\t    spectrum: ' +\
+                          f'{this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]}')
+                    raise AssertionError()
