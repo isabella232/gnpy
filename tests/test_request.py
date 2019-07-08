@@ -11,13 +11,13 @@
 """
 
 from pathlib import Path
-import pytest
-from copy import deepcopy
 from json import loads
+import pytest
 from gnpy.core.equipment import load_equipment, automatic_nch
 from gnpy.core.network import load_network, build_network
 from gnpy.core.utils import lin2db
-from gnpy.core.request import compute_path_dsjctn, find_reversed_path, Result_element
+from gnpy.core.request import compute_path_dsjctn, Result_element
+from gnpy.core.spectrum_assignment import build_oms_list, pth_assign_spectrum
 from examples.path_requests_run import (requests_from_json, disjunctions_from_json, correct_disjn,
                                         compute_path_with_disjunction)
 
@@ -44,35 +44,40 @@ def setup(eqpt):
     p_total_db = p_db + lin2db(automatic_nch(equipment['SI']['default'].f_min,\
         equipment['SI']['default'].f_max, equipment['SI']['default'].spacing))
     build_network(network, equipment, p_db, p_total_db)
-    return network
+    oms_list = build_oms_list(network, equipment)
+    return network, oms_list
 
 @pytest.fixture()
 def data(eqpt):
+    """ common setup for service list: builds service only once
+    """
     with open(SERVICE_FILENAME, encoding='utf-8') as my_f:
         data = loads(my_f.read())
     return data
 
 def test_strings(setup, data, eqpt):
     """ test that __str and __repr work
+        if print fails it raises an error and test fails
     """
     equipment = eqpt
     rqs = requests_from_json(data, equipment)
-    print(rqs)
+    print(rqs[0])
     print(str(rqs[0]))
     dsjn = disjunctions_from_json(data)
     print(dsjn)
     print(str(dsjn[0]))
     dsjn = correct_disjn(dsjn)
     equipment = eqpt
-    network = setup
+    network, oms_list = setup
     pths = compute_path_dsjctn(network, equipment, rqs, dsjn)
     # print(pths)
-    propagatedpths = compute_path_with_disjunction(network, equipment, rqs, pths)
+    propagatedpths, reversed_pths, reversed_propagatedpths = \
+        compute_path_with_disjunction(network, equipment, rqs, pths)
+    pth_assign_spectrum(pths, rqs, oms_list, reversed_pths)
     for i, pth in enumerate(propagatedpths):
-        print(Result_element(rqs[i], pth).pathresult)
+        print(Result_element(rqs[i], pth).json)
         print(str(Result_element(rqs[i], pth)))
-
-
+        print('\n\n')
 
 """ test that agregation groups only identical demands, that id is correct concatenation
 """
@@ -96,7 +101,4 @@ def test_strings(setup, data, eqpt):
 """
 
 """ test that path_result is consistant with yang
-"""
-
-"""
 """
