@@ -20,7 +20,9 @@ from gnpy.core.network import load_network, build_network
 from gnpy.core.utils import lin2db
 from gnpy.core.elements import Roadm
 from gnpy.core.spectrum_assignment import (build_oms_list, align_grids, nvalue_to_frequency,
-                                           bitmap_sum)
+                                           bitmap_sum, m_to_freq, slots_to_m, frequency_to_n,
+                                           Bitmap)
+from gnpy.core.exceptions import SpectrumError
 
 TEST_DIR = Path(__file__).parent
 DATA_DIR = TEST_DIR / 'data'
@@ -193,6 +195,27 @@ def test_assign_and_sum(nval1, nval2, setup):
                 print(f'value should be zero at index {elem}')
                 raise AssertionError
 
+def test_values(setup):
+    """ checks that oms.assign_spectrum(13,7) is (193137500000000.0, 193225000000000.0)
+        reference to Recommendation G.694.1 (02/12), Figure I.3
+        https://www.itu.int/rec/T-REC-G.694.1-201202-I/en
+    """
+    network, oms_list = setup
+
+    oms_list[5].assign_spectrum(13, 7)
+    fstart, fstop = m_to_freq(13, 7)
+    if fstart != 193.1375e12 or fstop != 193.225*1e12:
+        print('expected: 193137500000000.0, 193225000000000.0')
+        print(f'obtained: {fstart}, {fstop}')
+        raise AssertionError()
+    nstart = frequency_to_n(fstart)
+    nstop = frequency_to_n(fstop)
+    # nval, mval = slots_to_m(7, 20)
+    nval, mval = slots_to_m(nstart, nstop)
+    if nval != 13 or mval != 7:
+        print('expected n, m: 13, 7')
+        print(f'obtained: {nval}, {mval}')
+        raise AssertionError()
 
 """ checks spectrum selection function: if n is given, if n is empty
 """
@@ -200,6 +223,3 @@ def test_assign_and_sum(nval1, nval2, setup):
 """ checks that spectrum is correctly assigned
 """
 
-# oms.assign_spectrum(13,7) gives back (193137500000000.0, 193225000000000.0)
-# as in the example in the standard
-# oms.assign_spectrum(13,7)
