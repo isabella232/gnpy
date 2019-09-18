@@ -217,9 +217,62 @@ def test_values(setup):
         print(f'obtained: {nval}, {mval}')
         raise AssertionError()
 
-""" checks spectrum selection function: if n is given, if n is empty
-"""
+@pytest.mark.parametrize('nval', [0, None, 0.5])
+@pytest.mark.parametrize('mval', [1, 0, None, 4.5])
+def test_exception(nval, mval, setup):
+    """ test n or m not applicable values
+    """
+    network, oms_list = setup
+    try:
+        oms_list[5].assign_spectrum(nval, mval)
+        print(f'n, m values should raise an error {nval}, {mval}')
+        test = False
+    except SpectrumError:
+        test = True
+    if not test and (nval + mval) != 1:
+        print(nval, mval)
+        raise AssertionError()
 
-""" checks that spectrum is correctly assigned
-"""
+@pytest.mark.parametrize('nval', [0, -300, 500])
+@pytest.mark.parametrize('mval', [1, 600])
+def test_wrong_values(nval, mval, setup):
+    """ test n or m not applicable values
+    """
+    network, oms_list = setup
+    test = oms_list[5].assign_spectrum(nval, mval)
+    print(f'n, m values should raise an error {nval}, {mval}')
+    expected = False
+    if (nval + mval) == 1:
+        expected = True
+    if test is not expected:
+        print(nval, mval)
+        raise AssertionError()
+
+def test_bitmap_assignment(setup):
+    """ test that a bitmap can be assigned
+    """
+    network, oms_list = setup
+
+    oms_list[5].assign_spectrum(13, 7)
+
+    btmp = deepcopy(oms_list[5].spectrum_bitmap.bitmap)
+    freq_min = 191300000000000.0
+    freq_max = 196100000000000.0
+    # try a first assignment that must pass
+    spectrum_btmp = Bitmap(freq_min, freq_max, grid=0.00625e12, guardband=0.15e12, bitmap=btmp)
+
+    # try a wrong asignment that should not pass
+    btmp = btmp[1:-1]
+    test = False
+    try:
+        spectrum_btmp = Bitmap(freq_min, freq_max, grid=0.00625e12, guardband=0.15e12, bitmap=btmp)
+    except SpectrumError:
+        test = True
+
+    if not test:
+        print('bitmap direct assignment should create an error if length is not consistant with' +\
+              'provided values')
+        raise AssertionError()
+    """ checks spectrum selection function: if n is given, if n is empty
+    """
 
