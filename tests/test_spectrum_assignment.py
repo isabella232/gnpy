@@ -63,18 +63,13 @@ def test_oms(setup):
     """
     network, oms_list = setup
     for oms in oms_list:
-        if not isinstance(oms.el_list[0], Roadm) or not isinstance(oms.el_list[-1], Roadm):
-            raise AssertionError()
+        assert isinstance(oms.el_list[0], Roadm) and isinstance(oms.el_list[-1], Roadm)
         for i, elem in enumerate(oms.el_list[1:-2]):
-            if isinstance(elem, Roadm):
-                raise AssertionError()
-            if elem not in network.nodes():
-                raise AssertionError()
-            if elem.oms.oms_id != oms.oms_id:
-                raise AssertionError()
-            if elem.uid != oms.el_id_list[i+1]:
-                print(f'expected {elem.uid}, obtained {oms.el_id_list[i+1]}')
-                raise AssertionError()
+            assert not isinstance(elem, Roadm)
+            assert elem  in network.nodes()
+            assert elem.oms.oms_id == oms.oms_id
+            print(f'expected {elem.uid}, obtained {oms.el_id_list[i+1]}')
+            assert elem.uid == oms.el_id_list[i+1]
 
 @pytest.mark.parametrize('nmin', [-288, -260, -300])
 @pytest.mark.parametrize('nmax', [480, 320, 450])
@@ -105,22 +100,19 @@ def test_aligned(nmin, nmax, setup):
     nvalmax = oms_list[10].spectrum_bitmap.getn(ind_max) - nguard + 1
 
     # min index in bitmap must be consistant with min freq attribute
-    if nvalmin != oms_list[10].spectrum_bitmap.freq_index_min:
-        print(f'test1 expected: {nvalmin}')
-        print(f'freq_index_min : {oms_list[10].spectrum_bitmap.freq_index_min},')
-        raise AssertionError('inconsistancy in Bitmap object')
-    if nvalmax != oms_list[10].spectrum_bitmap.freq_index_max:
-        print(f'test2 expected: {nvalmax}')
-        print(f'freq_index_max: {oms_list[10].spectrum_bitmap.freq_index_max}')
-        raise AssertionError('inconsistancy in Bitmap object')
+    print(f'test1 expected: {nvalmin}')
+    print(f'freq_index_min : {oms_list[10].spectrum_bitmap.freq_index_min},')
+    assert nvalmin == oms_list[10].spectrum_bitmap.freq_index_min
+    print(f'test2 expected: {nvalmax}')
+    print(f'freq_index_max: {oms_list[10].spectrum_bitmap.freq_index_max}')
+    assert nvalmax == oms_list[10].spectrum_bitmap.freq_index_max
     oms_list[10].update_spectrum(freq_min, freq_max, grid=grid, guardband=guardband)
     # checks that changes are applied on bitmap and freq attributes of Bitmap object
-    if (nmin != oms_list[10].spectrum_bitmap.freq_index_min or
-            nmax != oms_list[10].spectrum_bitmap.freq_index_max):
-        print(f'expected: {nmin}, {nmax}')
-        print(f'test3 obtained: {oms_list[10].spectrum_bitmap.freq_index_min},' +\
-              f' {oms_list[10].spectrum_bitmap.freq_index_max}')
-        raise AssertionError()
+    print(f'expected: {nmin}, {nmax}')
+    print(f'test3 obtained: {oms_list[10].spectrum_bitmap.freq_index_min},' +\
+          f' {oms_list[10].spectrum_bitmap.freq_index_max}')
+    assert (nmin == oms_list[10].spectrum_bitmap.freq_index_min and
+            nmax == oms_list[10].spectrum_bitmap.freq_index_max)
 
     print('novel spectrum')
     print(nvalue_to_frequency(oms_list[10].spectrum_bitmap.freq_index_min)*1e-12,
@@ -133,23 +125,22 @@ def test_aligned(nmin, nmax, setup):
     nvalmin = oms_list[10].spectrum_bitmap.getn(0) + nguard
     nvalmax = oms_list[10].spectrum_bitmap.getn(ind_max) - nguard + 1
     # min index in bitmap must be consistant with min freq attribute
-    if nvalmin != oms_list[10].spectrum_bitmap.freq_index_min:
-        print(f'expected: {nvalmin}')
-        print(f'freq_index_min : {oms_list[10].spectrum_bitmap.freq_index_min},')
-        raise AssertionError('inconsistancy in Bitmap object')
-    if nvalmax != oms_list[10].spectrum_bitmap.freq_index_max:
-        print(f'expected: {nvalmax}')
-        print(f'freq_index_max: {oms_list[10].spectrum_bitmap.freq_index_max}')
-        raise AssertionError('inconsistancy in Bitmap object')
+    print(f'expected: {nvalmin}')
+    print(f'freq_index_min : {oms_list[10].spectrum_bitmap.freq_index_min},')
+    print('inconsistancy in Bitmap object')
+    assert nvalmin == oms_list[10].spectrum_bitmap.freq_index_min
+    print(f'expected: {nvalmax}')
+    print(f'freq_index_max: {oms_list[10].spectrum_bitmap.freq_index_max}')
+    print('inconsistancy in Bitmap object')
+    assert nvalmax == oms_list[10].spectrum_bitmap.freq_index_max
     oms_list = align_grids(oms_list)
     ind_max = len(oms_list[10].spectrum_bitmap.bitmap) - 1
     nvalmin = oms_list[10].spectrum_bitmap.getn(0)
     nvalmax = oms_list[10].spectrum_bitmap.getn(ind_max)
     print(f'expected: {min(nmin, nvalmin)}, {max(nmax, nvalmax)}')
-    if nvalmin > nmin or nvalmax < nmax:
-        print(f'expected: {nmin, nmax}')
-        print(f'obtained after alignment: {nvalmin}, {nvalmax}')
-        raise AssertionError()
+    print(f'expected: {nmin, nmax}')
+    print(f'obtained after alignment: {nvalmin}, {nvalmax}')
+    assert nvalmin <= nmin and nvalmax >= nmax
 
 @pytest.mark.parametrize('nval1', [0, 15, 24])
 @pytest.mark.parametrize('nval2', [8, 12])
@@ -183,11 +174,10 @@ def test_assign_and_sum(nval1, nval2, setup):
     # should return False
     if ((nval1 - mval) < oms1.spectrum_bitmap.getn(0) or
             (nval1 + mval-1) > oms1.spectrum_bitmap.getn(ind_max)):
-        if test1:
-            raise AssertionError('assignment on part of bitmap is not allowed')
+        print('assignment on part of bitmap is not allowed')
+        assert not test1
         for elem in oms1.spectrum_bitmap.bitmap:
-            if elem != 1:
-                raise AssertionError
+            assert elem == 1
     else:
         oms2.assign_spectrum(nval2, mval)
         print(oms2.spectrum_bitmap.bitmap)
@@ -198,13 +188,12 @@ def test_assign_and_sum(nval1, nval2, setup):
         range2 = range(oms2.spectrum_bitmap.geti(nval2) - mval,
                        oms2.spectrum_bitmap.geti(nval2) + mval -1)
         for elem in range1:
-            if test2[elem] != 0:
-                print(f'value should be zero at index {elem}')
-                raise AssertionError
+            print(f'value should be zero at index {elem}')
+            assert test2[elem] == 0
+                
         for elem in range2:
-            if test2[elem] != 0:
-                print(f'value should be zero at index {elem}')
-                raise AssertionError
+            print(f'value should be zero at index {elem}')
+            assert test2[elem] == 0
 
 def test_values(setup):
     """ checks that oms.assign_spectrum(13,7) is (193137500000000.0, 193225000000000.0)
@@ -215,18 +204,16 @@ def test_values(setup):
 
     oms_list[5].assign_spectrum(13, 7)
     fstart, fstop = m_to_freq(13, 7)
-    if fstart != 193.1375e12 or fstop != 193.225*1e12:
-        print('expected: 193137500000000.0, 193225000000000.0')
-        print(f'obtained: {fstart}, {fstop}')
-        raise AssertionError()
+    print('expected: 193137500000000.0, 193225000000000.0')
+    print(f'obtained: {fstart}, {fstop}')
+    assert fstart == 193.1375e12 and fstop == 193.225*1e12
     nstart = frequency_to_n(fstart)
     nstop = frequency_to_n(fstop)
     # nval, mval = slots_to_m(7, 20)
     nval, mval = slots_to_m(nstart, nstop)
-    if nval != 13 or mval != 7:
-        print('expected n, m: 13, 7')
-        print(f'obtained: {nval}, {mval}')
-        raise AssertionError()
+    print('expected n, m: 13, 7')
+    print(f'obtained: {nval}, {mval}')
+    assert nval == 13 or mval == 7
 
 @pytest.mark.parametrize('nval', [0, None, 0.5])
 @pytest.mark.parametrize('mval', [1, 0, None, 4.5])
@@ -240,9 +227,8 @@ def test_exception(nval, mval, setup):
         test = False
     except SpectrumError:
         test = True
-    if not test and (nval + mval) != 1:
-        print(nval, mval)
-        raise AssertionError()
+    print(nval, mval)
+    assert test or (nval + mval) == 1
 
 @pytest.mark.parametrize('nval', [0, -300, 500])
 @pytest.mark.parametrize('mval', [1, 600])
@@ -255,9 +241,8 @@ def test_wrong_values(nval, mval, setup):
     expected = False
     if (nval + mval) == 1:
         expected = True
-    if test is not expected:
-        print(nval, mval)
-        raise AssertionError()
+    print(nval, mval)
+    assert test is expected
 
 def test_bitmap_assignment(setup):
     """ test that a bitmap can be assigned
@@ -280,10 +265,9 @@ def test_bitmap_assignment(setup):
     except SpectrumError:
         test = True
 
-    if not test:
-        print('bitmap direct assignment should create an error if length is not consistant with' +\
-              'provided values')
-        raise AssertionError()
+    print('bitmap direct assignment should create an error if length is not consistant with' +\
+          'provided values')
+    assert test
 
 @pytest.fixture()
 def data(eqpt):
@@ -317,30 +301,26 @@ def test_spectrum_assignment_on_path(eqpt, setup, requests):
         print(f'testing on following oms {path_oms}')
         # check that only 96 channels are feasible
         if nval >= 96:
-            if center_n is not None or startn is not None or stopn is not None:
-                print(center_n, startn, stopn)
-                print('only 96 channels of 4 slots pass in this grid')
-                raise AssertionError()
+            print(center_n, startn, stopn)
+            print('only 96 channels of 4 slots pass in this grid')
+            assert center_n is None and startn is None and stopn is None
         if nval < 96:
-            if center_n is None or startn is None or stopn is None:
-                print(center_n, startn, stopn)
-                print('at least 96 channels of 4 slots should pass in this grid')
-                raise AssertionError()
+            print(center_n, startn, stopn)
+            print('at least 96 channels of 4 slots should pass in this grid')
+            assert center_n is not None and startn is not None and stopn is not None
         # print(oms_list[path_oms[0]].spectrum_bitmap.bitmap)
     req = [rqs[2]]
     pths = compute_path_dsjctn(network, equipment, req, [])
     (center_n, startn, stopn), path_oms = spectrum_selection(pths[0], oms_list, 4, 478)
     print(oms_list[0].spectrum_bitmap.freq_index_max)
     print(oms_list[0])
-    if center_n is not None or startn is not None or stopn is not None:
-        print(center_n, startn, stopn)
-        print('spectrum selection error: should be None')
-        raise AssertionError()
+    print(center_n, startn, stopn)
+    print('spectrum selection error: should be None')
+    assert center_n is  None and startn is None and stopn is None
     (center_n, startn, stopn), path_oms = spectrum_selection(pths[0], oms_list, 4, 477)
-    if center_n is None or startn is None or stopn is None:
-        print(center_n, startn, stopn)
-        print('spectrum selection error should not be None')
-        raise AssertionError()
+    print(center_n, startn, stopn)
+    print('spectrum selection error should not be None')
+    assert center_n is not None and startn is not  None and stopn is not None
 
 def test_reversed_direction(eqpt, setup, requests, data):
     """ checks that if spectrum is select on one direction it is also selected on reversed
@@ -386,11 +366,10 @@ def test_reversed_direction(eqpt, setup, requests, data):
             for j, elem in enumerate(this_revpath):
                 imin = elem.oms.spectrum_bitmap.geti(spectrum_list[i][1])
                 imax = elem.oms.spectrum_bitmap.geti(spectrum_list[i][2])
-                if elem.oms.spectrum_bitmap.bitmap[imin:imax] != \
-                   this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]:
-                    print(f'rev_elem {elem.uid}')
-                    print(f'    elem {this_path[len(this_path)-j-1].uid}')
-                    print(f'\trev_spectrum: {elem.oms.spectrum_bitmap.bitmap[imin:imax]}')
-                    print(f'\t    spectrum: ' +\
-                          f'{this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]}')
-                    raise AssertionError()
+                print(f'rev_elem {elem.uid}')
+                print(f'    elem {this_path[len(this_path)-j-1].uid}')
+                print(f'\trev_spectrum: {elem.oms.spectrum_bitmap.bitmap[imin:imax]}')
+                print(f'\t    spectrum: ' +\
+                      f'{this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]}')
+                assert elem.oms.spectrum_bitmap.bitmap[imin:imax] == \
+                   this_path[len(this_path)-j-1].oms.spectrum_bitmap.bitmap[imin:imax]
