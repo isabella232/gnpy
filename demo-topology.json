@@ -1,0 +1,564 @@
+{
+  "elements": [
+    {
+      "uid": "roadm-Amsterdam",
+      "type": "Roadm",
+      "params": {
+        "target_pch_out_db": -12.5
+      }
+    },
+    {
+      "uid": "trx-Amsterdam",
+      "type": "Transceiver"
+    },
+    {
+      "uid": "roadm-Amsterdam-AD-add",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 21
+      }
+    },
+    {
+      "uid": "roadm-Amsterdam-AD-drop",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 10
+      }
+    },
+    {
+      "uid": "att-trx-Amsterdam",
+      "type": "Fused",
+      "params": {
+        "loss": 22
+      }
+    },
+    {
+      "uid": "roadm-Amsterdam-L1-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Amsterdam-L1-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "roadm-Amsterdam-L2-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Amsterdam-L2-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "roadm-Bremen",
+      "type": "Roadm",
+      "params": {
+        "target_pch_out_db": -12.5
+      }
+    },
+    {
+      "uid": "trx-Bremen",
+      "type": "Transceiver"
+    },
+    {
+      "uid": "roadm-Bremen-AD-add",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 21
+      }
+    },
+    {
+      "uid": "roadm-Bremen-AD-drop",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 10
+      }
+    },
+    {
+      "uid": "att-trx-Bremen",
+      "type": "Fused",
+      "params": {
+        "loss": 22
+      }
+    },
+    {
+      "uid": "roadm-Bremen-L1-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Bremen-L1-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Bremen-roadm-Bremen-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "roadm-Bremen-L2-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Bremen-L2-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Bremen-roadm-Bremen-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "roadm-Cologne",
+      "type": "Roadm",
+      "params": {
+        "target_pch_out_db": -12.5
+      }
+    },
+    {
+      "uid": "trx-Cologne",
+      "type": "Transceiver"
+    },
+    {
+      "uid": "roadm-Cologne-AD-add",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 21
+      }
+    },
+    {
+      "uid": "roadm-Cologne-AD-drop",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 10
+      }
+    },
+    {
+      "uid": "att-trx-Cologne",
+      "type": "Fused",
+      "params": {
+        "loss": 22
+      }
+    },
+    {
+      "uid": "roadm-Cologne-L1-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Cologne-L1-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Cologne-roadm-Cologne-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "roadm-Cologne-L2-booster",
+      "type": "Edfa",
+      "type_variety": "fixed22",
+      "operational": {
+        "gain_target": 22,
+        "out_voa": 12.5
+      }
+    },
+    {
+      "uid": "roadm-Cologne-L2-preamp",
+      "type": "Edfa",
+      "type_variety": "fixed27",
+      "operational": {
+        "gain_target": 27,
+        "out_voa": 0.0
+      }
+    },
+    {
+      "uid": "att-roadm-Cologne-roadm-Cologne-AD-drop",
+      "type": "Fused",
+      "params": {
+        "loss": 0
+      }
+    },
+    {
+      "uid": "fiber-Amsterdam-Bremen",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
+    },
+    {
+      "uid": "fiber-Bremen-Cologne",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
+    },
+    {
+      "uid": "fiber-Cologne-Amsterdam",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from_node": "trx-Amsterdam",
+      "to_node": "att-trx-Amsterdam"
+    },
+    {
+      "from_node": "att-trx-Amsterdam",
+      "to_node": "roadm-Amsterdam-AD-add"
+    },
+    {
+      "from_node": "roadm-Amsterdam-AD-drop",
+      "to_node": "att-trx-Amsterdam"
+    },
+    {
+      "from_node": "att-trx-Amsterdam",
+      "to_node": "trx-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam-AD-add",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "roadm-Amsterdam-L1-booster"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L1-preamp",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop",
+      "to_node": "roadm-Amsterdam-AD-drop"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L1-preamp",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "roadm-Amsterdam-L2-booster"
+    },
+    {
+      "from_node": "roadm-Amsterdam-AD-add",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "roadm-Amsterdam-L2-booster"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L2-preamp",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Amsterdam-roadm-Amsterdam-AD-drop",
+      "to_node": "roadm-Amsterdam-AD-drop"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L2-preamp",
+      "to_node": "roadm-Amsterdam"
+    },
+    {
+      "from_node": "roadm-Amsterdam",
+      "to_node": "roadm-Amsterdam-L1-booster"
+    },
+    {
+      "from_node": "trx-Bremen",
+      "to_node": "att-trx-Bremen"
+    },
+    {
+      "from_node": "att-trx-Bremen",
+      "to_node": "roadm-Bremen-AD-add"
+    },
+    {
+      "from_node": "roadm-Bremen-AD-drop",
+      "to_node": "att-trx-Bremen"
+    },
+    {
+      "from_node": "att-trx-Bremen",
+      "to_node": "trx-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen-AD-add",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "roadm-Bremen-L1-booster"
+    },
+    {
+      "from_node": "roadm-Bremen-L1-preamp",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "att-roadm-Bremen-roadm-Bremen-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Bremen-roadm-Bremen-AD-drop",
+      "to_node": "roadm-Bremen-AD-drop"
+    },
+    {
+      "from_node": "roadm-Bremen-L1-preamp",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "roadm-Bremen-L2-booster"
+    },
+    {
+      "from_node": "roadm-Bremen-AD-add",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "roadm-Bremen-L2-booster"
+    },
+    {
+      "from_node": "roadm-Bremen-L2-preamp",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "att-roadm-Bremen-roadm-Bremen-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Bremen-roadm-Bremen-AD-drop",
+      "to_node": "roadm-Bremen-AD-drop"
+    },
+    {
+      "from_node": "roadm-Bremen-L2-preamp",
+      "to_node": "roadm-Bremen"
+    },
+    {
+      "from_node": "roadm-Bremen",
+      "to_node": "roadm-Bremen-L1-booster"
+    },
+    {
+      "from_node": "trx-Cologne",
+      "to_node": "att-trx-Cologne"
+    },
+    {
+      "from_node": "att-trx-Cologne",
+      "to_node": "roadm-Cologne-AD-add"
+    },
+    {
+      "from_node": "roadm-Cologne-AD-drop",
+      "to_node": "att-trx-Cologne"
+    },
+    {
+      "from_node": "att-trx-Cologne",
+      "to_node": "trx-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne-AD-add",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "roadm-Cologne-L1-booster"
+    },
+    {
+      "from_node": "roadm-Cologne-L1-preamp",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "att-roadm-Cologne-roadm-Cologne-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Cologne-roadm-Cologne-AD-drop",
+      "to_node": "roadm-Cologne-AD-drop"
+    },
+    {
+      "from_node": "roadm-Cologne-L1-preamp",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "roadm-Cologne-L2-booster"
+    },
+    {
+      "from_node": "roadm-Cologne-AD-add",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "roadm-Cologne-L2-booster"
+    },
+    {
+      "from_node": "roadm-Cologne-L2-preamp",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "att-roadm-Cologne-roadm-Cologne-AD-drop"
+    },
+    {
+      "from_node": "att-roadm-Cologne-roadm-Cologne-AD-drop",
+      "to_node": "roadm-Cologne-AD-drop"
+    },
+    {
+      "from_node": "roadm-Cologne-L2-preamp",
+      "to_node": "roadm-Cologne"
+    },
+    {
+      "from_node": "roadm-Cologne",
+      "to_node": "roadm-Cologne-L1-booster"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L1-booster",
+      "to_node": "fiber-Amsterdam-Bremen"
+    },
+    {
+      "from_node": "fiber-Amsterdam-Bremen",
+      "to_node": "roadm-Bremen-L1-preamp"
+    },
+    {
+      "from_node": "roadm-Bremen-L1-booster",
+      "to_node": "fiber-Amsterdam-Bremen"
+    },
+    {
+      "from_node": "fiber-Amsterdam-Bremen",
+      "to_node": "roadm-Amsterdam-L1-preamp"
+    },
+    {
+      "from_node": "roadm-Bremen-L2-booster",
+      "to_node": "fiber-Bremen-Cologne"
+    },
+    {
+      "from_node": "fiber-Bremen-Cologne",
+      "to_node": "roadm-Cologne-L2-preamp"
+    },
+    {
+      "from_node": "roadm-Cologne-L2-booster",
+      "to_node": "fiber-Bremen-Cologne"
+    },
+    {
+      "from_node": "fiber-Bremen-Cologne",
+      "to_node": "roadm-Bremen-L2-preamp"
+    },
+    {
+      "from_node": "roadm-Cologne-L1-booster",
+      "to_node": "fiber-Cologne-Amsterdam"
+    },
+    {
+      "from_node": "fiber-Cologne-Amsterdam",
+      "to_node": "roadm-Amsterdam-L2-preamp"
+    },
+    {
+      "from_node": "roadm-Amsterdam-L2-booster",
+      "to_node": "fiber-Cologne-Amsterdam"
+    },
+    {
+      "from_node": "fiber-Cologne-Amsterdam",
+      "to_node": "roadm-Cologne-L1-preamp"
+    }
+  ]
+}
