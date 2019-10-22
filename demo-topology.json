@@ -17,7 +17,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 21
+        "out_voa": 22
       }
     },
     {
@@ -30,10 +30,17 @@
       }
     },
     {
-      "uid": "att-trx-Amsterdam",
+      "uid": "att-trx-Amsterdam-roadm-Amsterdam-AD-add",
       "type": "Fused",
       "params": {
-        "loss": 22
+        "loss": 19.9
+      }
+    },
+    {
+      "uid": "att-roadm-Amsterdam-AD-drop-trx-Amsterdam",
+      "type": "Fused",
+      "params": {
+        "loss": 0
       }
     },
     {
@@ -103,7 +110,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 21
+        "out_voa": 22
       }
     },
     {
@@ -116,10 +123,17 @@
       }
     },
     {
-      "uid": "att-trx-Bremen",
+      "uid": "att-trx-Bremen-roadm-Bremen-AD-add",
       "type": "Fused",
       "params": {
-        "loss": 22
+        "loss": 19.9
+      }
+    },
+    {
+      "uid": "att-roadm-Bremen-AD-drop-trx-Bremen",
+      "type": "Fused",
+      "params": {
+        "loss": 0
       }
     },
     {
@@ -189,7 +203,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 21
+        "out_voa": 22
       }
     },
     {
@@ -202,10 +216,17 @@
       }
     },
     {
-      "uid": "att-trx-Cologne",
+      "uid": "att-trx-Cologne-roadm-Cologne-AD-add",
       "type": "Fused",
       "params": {
-        "loss": 22
+        "loss": 19.9
+      }
+    },
+    {
+      "uid": "att-roadm-Cologne-AD-drop-trx-Cologne",
+      "type": "Fused",
+      "params": {
+        "loss": 0
       }
     },
     {
@@ -271,7 +292,31 @@
       }
     },
     {
+      "uid": "fiber-Bremen-Amsterdam",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
+    },
+    {
       "uid": "fiber-Bremen-Cologne",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
+    },
+    {
+      "uid": "fiber-Cologne-Bremen",
       "type": "Fiber",
       "type_variety": "SSMF",
       "params": {
@@ -293,23 +338,35 @@
         "con_in": 1.5,
         "con_out": 1.5
       }
+    },
+    {
+      "uid": "fiber-Amsterdam-Cologne",
+      "type": "Fiber",
+      "type_variety": "SSMF",
+      "params": {
+        "length": 50,
+        "length_units": "km",
+        "loss_coef": 0.2,
+        "con_in": 1.5,
+        "con_out": 1.5
+      }
     }
   ],
   "connections": [
     {
       "from_node": "trx-Amsterdam",
-      "to_node": "att-trx-Amsterdam"
+      "to_node": "att-trx-Amsterdam-roadm-Amsterdam-AD-add"
     },
     {
-      "from_node": "att-trx-Amsterdam",
+      "from_node": "att-trx-Amsterdam-roadm-Amsterdam-AD-add",
       "to_node": "roadm-Amsterdam-AD-add"
     },
     {
       "from_node": "roadm-Amsterdam-AD-drop",
-      "to_node": "att-trx-Amsterdam"
+      "to_node": "att-roadm-Amsterdam-AD-drop-trx-Amsterdam"
     },
     {
-      "from_node": "att-trx-Amsterdam",
+      "from_node": "att-roadm-Amsterdam-AD-drop-trx-Amsterdam",
       "to_node": "trx-Amsterdam"
     },
     {
@@ -370,18 +427,18 @@
     },
     {
       "from_node": "trx-Bremen",
-      "to_node": "att-trx-Bremen"
+      "to_node": "att-trx-Bremen-roadm-Bremen-AD-add"
     },
     {
-      "from_node": "att-trx-Bremen",
+      "from_node": "att-trx-Bremen-roadm-Bremen-AD-add",
       "to_node": "roadm-Bremen-AD-add"
     },
     {
       "from_node": "roadm-Bremen-AD-drop",
-      "to_node": "att-trx-Bremen"
+      "to_node": "att-roadm-Bremen-AD-drop-trx-Bremen"
     },
     {
-      "from_node": "att-trx-Bremen",
+      "from_node": "att-roadm-Bremen-AD-drop-trx-Bremen",
       "to_node": "trx-Bremen"
     },
     {
@@ -442,18 +499,18 @@
     },
     {
       "from_node": "trx-Cologne",
-      "to_node": "att-trx-Cologne"
+      "to_node": "att-trx-Cologne-roadm-Cologne-AD-add"
     },
     {
-      "from_node": "att-trx-Cologne",
+      "from_node": "att-trx-Cologne-roadm-Cologne-AD-add",
       "to_node": "roadm-Cologne-AD-add"
     },
     {
       "from_node": "roadm-Cologne-AD-drop",
-      "to_node": "att-trx-Cologne"
+      "to_node": "att-roadm-Cologne-AD-drop-trx-Cologne"
     },
     {
-      "from_node": "att-trx-Cologne",
+      "from_node": "att-roadm-Cologne-AD-drop-trx-Cologne",
       "to_node": "trx-Cologne"
     },
     {
@@ -518,18 +575,18 @@
     },
     {
       "from_node": "fiber-Amsterdam-Bremen",
+      "to_node": "roadm-Bremen-L2-preamp"
+    },
+    {
+      "from_node": "roadm-Bremen-L2-booster",
+      "to_node": "fiber-Bremen-Amsterdam"
+    },
+    {
+      "from_node": "fiber-Bremen-Amsterdam",
       "to_node": "roadm-Bremen-L1-preamp"
     },
     {
       "from_node": "roadm-Bremen-L1-booster",
-      "to_node": "fiber-Amsterdam-Bremen"
-    },
-    {
-      "from_node": "fiber-Amsterdam-Bremen",
-      "to_node": "roadm-Amsterdam-L1-preamp"
-    },
-    {
-      "from_node": "roadm-Bremen-L2-booster",
       "to_node": "fiber-Bremen-Cologne"
     },
     {
@@ -538,11 +595,11 @@
     },
     {
       "from_node": "roadm-Cologne-L2-booster",
-      "to_node": "fiber-Bremen-Cologne"
+      "to_node": "fiber-Cologne-Bremen"
     },
     {
-      "from_node": "fiber-Bremen-Cologne",
-      "to_node": "roadm-Bremen-L2-preamp"
+      "from_node": "fiber-Cologne-Bremen",
+      "to_node": "roadm-Cologne-L1-preamp"
     },
     {
       "from_node": "roadm-Cologne-L1-booster",
@@ -554,11 +611,11 @@
     },
     {
       "from_node": "roadm-Amsterdam-L2-booster",
-      "to_node": "fiber-Cologne-Amsterdam"
+      "to_node": "fiber-Amsterdam-Cologne"
     },
     {
-      "from_node": "fiber-Cologne-Amsterdam",
-      "to_node": "roadm-Cologne-L1-preamp"
+      "from_node": "fiber-Amsterdam-Cologne",
+      "to_node": "roadm-Amsterdam-L1-preamp"
     }
   ]
 }

@@ -57,15 +57,15 @@ for CITY in (AMS, BRE, COL):
     )
     mk_edfa(f"roadm-{CITY}-AD-add", 22, 22)
     mk_edfa(f"roadm-{CITY}-AD-drop", 27, 10)
-    #add_att(f"trx-{CITY}", f"roadm-{CITY}-AD-add", 19.9)
-    #add_att(f"roadm-{CITY}-AD-drop", f"trx-{CITY}", 0)
-    J["elements"].append(
-        {"uid": f"att-trx-{CITY}", "type": "Fused", "params": {"loss": 22}},
-    )
-    unidir_join(f"trx-{CITY}", f"att-trx-{CITY}")
-    unidir_join(f"att-trx-{CITY}", f"roadm-{CITY}-AD-add")
-    unidir_join(f"roadm-{CITY}-AD-drop", f"att-trx-{CITY}")
-    unidir_join(f"att-trx-{CITY}", f"trx-{CITY}")
+    add_att(f"trx-{CITY}", f"roadm-{CITY}-AD-add", 19.9)
+    add_att(f"roadm-{CITY}-AD-drop", f"trx-{CITY}", 0)
+    #J["elements"].append(
+    #    {"uid": f"att-trx-{CITY}", "type": "Fused", "params": {"loss": 22}},
+    #)
+    #unidir_join(f"trx-{CITY}", f"att-trx-{CITY}")
+    #unidir_join(f"att-trx-{CITY}", f"roadm-{CITY}-AD-add")
+    #unidir_join(f"roadm-{CITY}-AD-drop", f"att-trx-{CITY}")
+    #unidir_join(f"att-trx-{CITY}", f"trx-{CITY}")
     for n in (1,2):
         mk_edfa(f"roadm-{CITY}-L{n}-booster", 22)
         mk_edfa(f"roadm-{CITY}-L{n}-preamp", 27)
@@ -88,29 +88,34 @@ for CITY in (AMS, BRE, COL):
 for LONG in ((AMS, BRE), (BRE, COL), (COL, AMS)):
     city1, city2 = LONG
     build_fiber(city1, city2)
+    unidir_join(f"roadm-{city1}-L1-booster", f"fiber-{city1}-{city2}")
+    unidir_join(f"fiber-{city1}-{city2}", f"roadm-{city2}-L2-preamp")
+    build_fiber(city2, city1)
+    unidir_join(f"roadm-{city2}-L2-booster", f"fiber-{city2}-{city1}")
+    unidir_join(f"fiber-{city2}-{city1}", f"roadm-{city2}-L1-preamp")
 
 
-unidir_join("roadm-Amsterdam-L1-booster", "fiber-Amsterdam-Bremen")
-unidir_join("fiber-Amsterdam-Bremen", "roadm-Bremen-L1-preamp")
-unidir_join("roadm-Bremen-L1-booster", "fiber-Amsterdam-Bremen")
-unidir_join("fiber-Amsterdam-Bremen", "roadm-Amsterdam-L1-preamp")
-
-unidir_join("roadm-Bremen-L2-booster", "fiber-Bremen-Cologne")
-unidir_join("fiber-Bremen-Cologne", "roadm-Cologne-L2-preamp")
-unidir_join("roadm-Cologne-L2-booster", "fiber-Bremen-Cologne")
-unidir_join("fiber-Bremen-Cologne", "roadm-Bremen-L2-preamp")
-
-unidir_join("roadm-Cologne-L1-booster", "fiber-Cologne-Amsterdam")
-unidir_join("fiber-Cologne-Amsterdam", "roadm-Amsterdam-L2-preamp")
-unidir_join("roadm-Amsterdam-L2-booster", "fiber-Cologne-Amsterdam")
-unidir_join("fiber-Cologne-Amsterdam", "roadm-Cologne-L1-preamp")
+#unidir_join("roadm-Amsterdam-L1-booster", "fiber-Amsterdam-Bremen")
+#unidir_join("fiber-Amsterdam-Bremen", "roadm-Bremen-L1-preamp")
+#unidir_join("roadm-Bremen-L1-booster", "fiber-Amsterdam-Bremen")
+#unidir_join("fiber-Amsterdam-Bremen", "roadm-Amsterdam-L1-preamp")
+#
+#unidir_join("roadm-Bremen-L2-booster", "fiber-Bremen-Cologne")
+#unidir_join("fiber-Bremen-Cologne", "roadm-Cologne-L2-preamp")
+#unidir_join("roadm-Cologne-L2-booster", "fiber-Bremen-Cologne")
+#unidir_join("fiber-Bremen-Cologne", "roadm-Bremen-L2-preamp")
+#
+#unidir_join("roadm-Cologne-L1-booster", "fiber-Cologne-Amsterdam")
+#unidir_join("fiber-Cologne-Amsterdam", "roadm-Amsterdam-L2-preamp")
+#unidir_join("roadm-Amsterdam-L2-booster", "fiber-Cologne-Amsterdam")
+#unidir_join("fiber-Cologne-Amsterdam", "roadm-Cologne-L1-preamp")
 
 for _, E in enumerate(J["elements"]):
     uid = E["uid"]
     if uid.startswith("roadm-") and (uid.endswith("-L1-booster") or uid.endswith("-L2-booster")):
         E["operational"]["out_voa"] = 12.5
-    if uid.endswith("-AD-add"):
-        E["operational"]["out_voa"] = 21
+    #if uid.endswith("-AD-add"):
+    #    E["operational"]["out_voa"] = 21
 
 import json
 print(json.dumps(J, indent=2))
