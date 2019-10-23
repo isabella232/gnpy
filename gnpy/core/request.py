@@ -929,10 +929,11 @@ def find_reversed_path(pth):
     # p_oms should be = [oms1 oms2]
     for el in pth:
         if isinstance(el, Transceiver) or isinstance(el, Roadm):
-            print(f" {el.uid}: {type(el).__name__} (OMS n/a)")
+            print(f" {type(el).__name__} {el.uid}: (OMS n/a)")
             continue
         try:
-            print(f" {el.uid}: {type(el).__name__} {el.oms}")
+            print(f" {type(el).__name__} {el.uid}: {el.oms}")
+            print(f"   reversed: {el.oms.reversed_oms}")
         except AttributeError:
             print(f" !!! no OMS for {type(el).__name__} {el.uid}")
     p_oms = list(OrderedDict.fromkeys(reversed([el.oms.reversed_oms for el in pth \
