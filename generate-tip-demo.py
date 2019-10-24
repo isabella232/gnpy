@@ -69,8 +69,6 @@ def unidir_patch(a, b):
     )
     add_att(a, uid, 0.0)
     add_att(uid, b, 0.0)
-    #unidir_join(a, uid)
-    #unidir_join(uid, b)
 
 #for CITY in (AMS, BRE,):
 for CITY in (AMS, BRE, COL):
@@ -101,9 +99,6 @@ for CITY in (AMS, BRE, COL):
             #add_att(f"roadm-{CITY}-L{n}", f"roadm-{CITY}-L{m}", 22)
             unidir_patch(f"roadm-{CITY}-L{n}", f"roadm-{CITY}-L{m}")
 
-#for LONG in ((AMS, BRE), (BRE, AMS)):
-#for LONG in ((AMS, BRE),):
-#for LONG in ((AMS, BRE), (BRE, COL)):
 #for city1, city2 in ((AMS, BRE), (BRE, AMS),):
 for city1, city2 in ((AMS, BRE), (BRE, COL), (COL, AMS)):
     build_fiber(city1, city2)

@@ -927,19 +927,9 @@ def find_reversed_path(pth):
     # the OrderedDict.fromkeys function does this. eg
     # pth = [el1_oms1 el2_oms1 el3_oms1 el1_oms2 el2_oms2 el3_oms2]
     # p_oms should be = [oms1 oms2]
-    for el in pth:
-        if isinstance(el, Transceiver) or isinstance(el, Roadm):
-            print(f" {type(el).__name__} {el.uid}: (OMS n/a)")
-            continue
-        try:
-            print(f" {type(el).__name__} {el.uid}: {el.oms}")
-            print(f"   reversed: {el.oms.reversed_oms}")
-        except AttributeError:
-            print(f" !!! no OMS for {type(el).__name__} {el.uid}")
     p_oms = list(OrderedDict.fromkeys(reversed([el.oms.reversed_oms for el in pth \
                 if not isinstance(el, Transceiver) and not isinstance(el, Roadm)])))
     reversed_path = [pth[-1]]
-    print(p_oms)
     for oms in p_oms:
         if oms is not None:
             reversed_path.extend(oms.el_list)
