@@ -1,3 +1,20 @@
+# How many nodes in the ring topology? Up to eight is supported, then I ran out of cities..
+HOW_MANY = 3
+
+# city names
+ALL_CITIES = [
+    'Amsterdam',
+    'Bremen',
+    'Cologne',
+    'Dueseldorf',
+    'Eindhoven',
+    'Frankfurt',
+    'Ghent',
+    'Hague',
+]
+# end of configurable parameters
+
+
 J = {
     "elements": [],
     "connections": [],
@@ -27,11 +44,6 @@ def add_att(a, b, att):
     unidir_join(a, uid)
     unidir_join(uid, b)
     return uid
-
-
-AMS = 'Amsterdam'
-BRE = 'Bremen'
-COL = 'Cologne'
 
 def build_fiber(city1, city2):
     global J
@@ -70,21 +82,19 @@ def unidir_patch(a, b):
     add_att(a, uid, 0.0)
     add_att(uid, b, 0.0)
 
-#for CITY in (AMS, BRE,):
-for CITY in (AMS, BRE, COL):
-    # transceivers
+for CITY in (ALL_CITIES[x] for x in range(0, HOW_MANY)):
     J["elements"].append(
         {"uid": f"trx-{CITY}", "type": "Transceiver"}
     )
     J["elements"].append(
-        {"uid": f"roadm-{CITY}-AD", "type": "Roadm", "params": {"target_pch_out_db": -12.5}}
+        {"uid": f"roadm-{CITY}-AD", "type": "Roadm", "params": {"target_pch_out_db": -17.0}}
     )
     unidir_join(f"trx-{CITY}", f"roadm-{CITY}-AD")
     unidir_join(f"roadm-{CITY}-AD", f"trx-{CITY}")
 
     for n in (1,2):
         J["elements"].append(
-            {"uid": f"roadm-{CITY}-L{n}", "type": "Roadm", "params": {"target_pch_out_db": -12.5}}
+            {"uid": f"roadm-{CITY}-L{n}", "type": "Roadm", "params": {"target_pch_out_db": -24.0}}
         )
         mk_edfa(f"roadm-{CITY}-L{n}-booster", 22)
         mk_edfa(f"roadm-{CITY}-L{n}-preamp", 27)
@@ -99,8 +109,7 @@ for CITY in (AMS, BRE, COL):
             #add_att(f"roadm-{CITY}-L{n}", f"roadm-{CITY}-L{m}", 22)
             unidir_patch(f"roadm-{CITY}-L{n}", f"roadm-{CITY}-L{m}")
 
-#for city1, city2 in ((AMS, BRE), (BRE, AMS),):
-for city1, city2 in ((AMS, BRE), (BRE, COL), (COL, AMS)):
+for city1, city2 in ((ALL_CITIES[i], ALL_CITIES[i + 1] if i < HOW_MANY - 1 else ALL_CITIES[0]) for i in range(0, HOW_MANY)):
     build_fiber(city1, city2)
     unidir_join(f"roadm-{city1}-L1-booster", f"fiber-{city1}-{city2}")
     unidir_join(f"fiber-{city1}-{city2}", f"roadm-{city2}-L2-preamp")
@@ -112,7 +121,7 @@ for city1, city2 in ((AMS, BRE), (BRE, COL), (COL, AMS)):
 for _, E in enumerate(J["elements"]):
     uid = E["uid"]
     if uid.startswith("roadm-") and (uid.endswith("-L1-booster") or uid.endswith("-L2-booster")):
-        E["operational"]["out_voa"] = 12.5
+        E["operational"]["out_voa"] = 12.0
     #if uid.endswith("-AD-add"):
     #    E["operational"]["out_voa"] = 21
 

@@ -68,7 +68,6 @@ NETWORK_FILENAME = 'topoDemov1.json' #'disagregatedTopoDemov1.json' #
 APP = Flask(__name__, static_url_path="")
 API = Api(APP)
 
-
 def requests_from_json(json_data, equipment):
     """ converts the json data into a list of requests elements
     """
@@ -506,22 +505,10 @@ class GnpyAPI(Resource):
     """ Compute requests using network, data and equipment with rest api
     """
     def post(self):
-        """ returns response
-        """
-        print(request.is_json)
-        content = request.get_json()
-        content1 = content['gnpy-api']
-        topo_json = content1['topology-file']
-        if not topo_json:
-            topo_json = load_json(NETWORK_FILENAME)
-        svc_json = content1['service-file']
-        # Load equipment
-        equipment = load_equipment('eqpt_config.json')
-        #Create load_requests
-        data = svc_json
-        #network = load_network(ARGS.network_filename, equipment)
+        data = request.get_json()
+        equipment = load_equipment('examples/equipment-demo-2019.json')
+        topo_json = load_json('demo-topology.json')
         network = network_from_json(topo_json, equipment)
-        # Compute requests using network, data and equipment
         try:
             propagatedpths, reversed_propagatedpths, rqs = compute_requests(network, data, equipment)
             # Generate the output
@@ -535,7 +522,7 @@ class GnpyAPI(Resource):
             msg = f'Service error: {this_e}'
             return {"result": msg}, 400
 
-API.add_resource(GnpyAPI, '/gnpy/api/v1.0/files', endpoint='files')
+API.add_resource(GnpyAPI, '/gnpy-experimental')
 
 def main(args):
     """ main function that calls all functions

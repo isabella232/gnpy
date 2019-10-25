@@ -51,8 +51,8 @@
             }
       ],
       "Roadm":[{
-            "target_pch_out_db": -12.5,
-            "add_drop_osnr": 38,
+            "target_pch_out_db": -25,
+            "add_drop_osnr": 30.00,
             "restrictions": {
                             "preamp_variety_list":[],
                             "booster_variety_list":[]

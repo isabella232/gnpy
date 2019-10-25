@@ -53,7 +53,7 @@
   ],
   "synchronization": [
     {
-      "synchronization-id": "x",
+      "synchronization-id": "some redundancy please",
       "svec": {
         "relaxable": "false",
         "disjointness": "node link",

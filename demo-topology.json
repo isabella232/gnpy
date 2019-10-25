@@ -8,14 +8,14 @@
       "uid": "roadm-Amsterdam-AD",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -17.0
       }
     },
     {
       "uid": "roadm-Amsterdam-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -24,7 +24,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
@@ -118,7 +118,7 @@
       "uid": "roadm-Amsterdam-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -127,7 +127,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
@@ -225,14 +225,14 @@
       "uid": "roadm-Bremen-AD",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -17.0
       }
     },
     {
       "uid": "roadm-Bremen-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -241,7 +241,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
@@ -335,7 +335,7 @@
       "uid": "roadm-Bremen-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -344,7 +344,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
@@ -442,14 +442,14 @@
       "uid": "roadm-Cologne-AD",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -17.0
       }
     },
     {
       "uid": "roadm-Cologne-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -458,7 +458,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
@@ -552,7 +552,7 @@
       "uid": "roadm-Cologne-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -12.5
+        "target_pch_out_db": -24.0
       }
     },
     {
@@ -561,7 +561,7 @@
       "type_variety": "fixed22",
       "operational": {
         "gain_target": 22,
-        "out_voa": 12.5
+        "out_voa": 12.0
       }
     },
     {
