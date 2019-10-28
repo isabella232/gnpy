@@ -15,7 +15,7 @@
       "uid": "roadm-Amsterdam-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
@@ -118,7 +118,7 @@
       "uid": "roadm-Amsterdam-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
@@ -232,7 +232,7 @@
       "uid": "roadm-Bremen-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
@@ -335,7 +335,7 @@
       "uid": "roadm-Bremen-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
@@ -449,7 +449,7 @@
       "uid": "roadm-Cologne-L1",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
@@ -552,7 +552,7 @@
       "uid": "roadm-Cologne-L2",
       "type": "Roadm",
       "params": {
-        "target_pch_out_db": -22.0
+        "target_pch_out_db": -21.0
       }
     },
     {
