@@ -385,6 +385,7 @@ def propagate(path, req, equipment):
         req.power, req.spacing)
     for el in path:
         si = el(si)
+        print(el)
     path[-1].update_snr(req.tx_osnr, equipment['Roadm']['default'].add_drop_osnr)
     return path
 
@@ -426,6 +427,7 @@ def propagate_and_optimize_mode(path, req, equipment):
                                                    this_br, req.power, req.spacing)
             for el in path:
                 spc_info = el(spc_info)
+                print(el)
             for this_mode in modes_to_explore:
                 if path[-1].snr is not None:
                     path[-1].update_snr(this_mode['tx_osnr'], equipment['Roadm']['default'].add_drop_osnr)
