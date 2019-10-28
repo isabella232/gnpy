@@ -18,7 +18,7 @@
               "M": "null"
             }
           ],
-          "spacing": 50000000000.0,
+          "spacing": 100000000000.0,
           "max-nb-of-channel": null,
           "output-power": null,
           "path_bandwidth": 100000000000.0
@@ -43,7 +43,7 @@
               "M": "null"
             }
           ],
-          "spacing": 50000000000.0,
+          "spacing": 100000000000.0,
           "max-nb-of-channel": null,
           "output-power": null,
           "path_bandwidth": 100000000000.0
