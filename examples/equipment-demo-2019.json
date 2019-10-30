@@ -56,7 +56,7 @@
             "restrictions": {
                             "preamp_variety_list":[],
                             "booster_variety_list":[]
-                            }            
+                            }
             }],
       "SI":[{
             "f_min": 191.3e12,
