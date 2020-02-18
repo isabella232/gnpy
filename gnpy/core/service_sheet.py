@@ -169,9 +169,13 @@ class Request_element(Element):
                         for node in self.nodes_list]
                    }
             req_dictionnary['explicit-route-objects'] = temp
+        # path_bandwidth must not be empty. raise a service error
         if self.path_bandwidth is not None:
             req_dictionnary['path-constraints']['te-bandwidth']['path_bandwidth'] = self.path_bandwidth
-            
+        else:
+            msg = f'Request {self.request_id} missing mandatory path_bandwidth.\nComputation stopped'
+            logger.critical(msg)
+            raise ServiceError(msg)
         return req_dictionnary
     @property
     def pathsync(self):

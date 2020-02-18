@@ -112,8 +112,15 @@ def requests_from_json(json_data, equipment):
 
         try:
             params['path_bandwidth'] = req['path-constraints']['te-bandwidth']['path_bandwidth']
+            # path_bandwidth should not be None
+            if req['path-constraints']['te-bandwidth']['path_bandwidth'] is None:
+                msg = f'Request {req["request-id"]} has None path_bandwidth.\nComputation stopped'
+                LOGGER.critical(msg)
+                raise ServiceError(msg)
         except KeyError:
-            pass
+            msg = f'Request {req["request-id"]} missing mandatory path_bandwidth.\nComputation stopped'
+            LOGGER.critical(msg)
+            raise ServiceError(msg)
         requests_list.append(Path_request(**params))
     return requests_list
 
